@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 4.4
+    version: 5.7
   services:
     - docker
   environment:
@@ -28,4 +28,4 @@ deployment:
       - docker tag -f $IMAGE_NAME:$(git describe --tags --always) $DOCKER_PRIVATE_REPO/$IMAGE_NAME:$(git describe --tags --always)
       - docker push $DOCKER_PRIVATE_REPO/$IMAGE_NAME:$(git describe --tags --always)
       - docker push $DOCKER_PRIVATE_REPO/$IMAGE_NAME:latest
-#      - ./deploy.sh latest
+      - ./deploy.sh latest $DOCKER_PRIVATE_REPO $IMAGE_NAME $EB_BUCKET
