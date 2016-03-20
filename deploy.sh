@@ -6,7 +6,7 @@ IMAGE_NAME=$3
 # Create new Elastic Beanstalk version
 EB_BUCKET=$4
 DOCKERRUN_FILE=$TAG-Dockerrun.aws.json
-AWS_REGION=eu-central-1
+AWS_REGION=eu-west-1
 
 sed -e "s/<TAG>/$TAG/" \
   -e "s/<DOCKER_PRIVATE_REPO>/$DOCKER_PRIVATE_REPO/" \
