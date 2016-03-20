@@ -3,6 +3,7 @@ var express = require('express'),
     middleware = require('./middleware')
 
 app.get('/ping', middleware.ping)
+app.get('/', middleware.helloWorld)
 
 app.set('port', process.env.PORT || 3000)
 
