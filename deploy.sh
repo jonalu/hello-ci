@@ -16,7 +16,7 @@ sed -e "s/<TAG>/$TAG/" \
 
 aws s3 cp $DOCKERRUN_FILE s3://$EB_BUCKET/$DOCKERRUN_FILE --region $AWS_REGION
 
-aws elasticbeanstalk create-application-version --application-name hello-ci \
+aws elasticbeanstalk create-application-version --application-name hello-ci-env \
   --version-label $TAG --source-bundle S3Bucket=$EB_BUCKET,S3Key=$DOCKERRUN_FILE \
   --region $AWS_REGION
 
