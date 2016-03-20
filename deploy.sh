@@ -6,7 +6,7 @@ IMAGE_NAME=$3
 # Create new Elastic Beanstalk version
 EB_BUCKET=$4
 DOCKERRUN_FILE=$TAG-Dockerrun.aws.json
-AWS_REGION=eu-west-1
+AWS_REGION=us-west-2
 
 sed -e "s/<TAG>/$TAG/" \
   -e "s/<DOCKER_PRIVATE_REPO>/$DOCKER_PRIVATE_REPO/" \
@@ -16,7 +16,7 @@ sed -e "s/<TAG>/$TAG/" \
 
 aws s3 cp $DOCKERRUN_FILE s3://$EB_BUCKET/$DOCKERRUN_FILE --region $AWS_REGION
 
-aws elasticbeanstalk create-application-version --application-name hello-ci-env \
+aws elasticbeanstalk create-application-version --application-name hello-ci \
   --version-label $TAG --source-bundle S3Bucket=$EB_BUCKET,S3Key=$DOCKERRUN_FILE \
   --region $AWS_REGION
 
