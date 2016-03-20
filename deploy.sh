@@ -21,6 +21,6 @@ aws elasticbeanstalk create-application-version --application-name hello-ci \
   --region $AWS_REGION
 
 # Update Elastic Beanstalk environment to new version
-aws elasticbeanstalk update-environment --environment-name hello-env \
+aws elasticbeanstalk update-environment --environment-name hello-ci-env \
     --version-label $TAG \
     --region $AWS_REGION
