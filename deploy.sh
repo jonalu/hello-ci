@@ -16,11 +16,11 @@ sed -e "s/<TAG>/$TAG/" \
 
 aws s3 cp $DOCKERRUN_FILE s3://$EB_BUCKET/$DOCKERRUN_FILE --region $AWS_REGION
 
-aws elasticbeanstalk create-application-version --application-name $IMAGE_NAME \
+aws elasticbeanstalk create-application-version --application-name hello \
   --version-label $TAG --source-bundle S3Bucket=$EB_BUCKET,S3Key=$DOCKERRUN_FILE \
   --region $AWS_REGION
 
 # Update Elastic Beanstalk environment to new version
-aws elasticbeanstalk update-environment --environment-name $IMAGE_NAME-env \
+aws elasticbeanstalk update-environment --environment-name hello-env \
     --version-label $TAG \
     --region $AWS_REGION
