@@ -15,6 +15,14 @@
       }, 5000)
     }
 
+    socket.on('schedule', function(schedule) {
+      console.log('schedule recvd')
+    })
+
+    socket.on('events', function(events) {
+      console.log('events recvd', events)
+    })
+
     startPinging()
   </script>
 </body>
