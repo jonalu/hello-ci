@@ -39,7 +39,7 @@
         li.appendChild(header)
         tournament.matches.forEach(function(match) {
           var matchLi = document.createElement('li')
-          matchLi.appendChild(document.createTextNode(match.teamA.name + ' ' + match.teamA.goals + ' - ' + match.teamB.goals + ' ' + match.teamB.name + ' ('+ match.matchStatus +')'))
+          matchLi.appendChild(document.createTextNode(match.startTime + ': ' +match.teamA.name + ' ' + match.teamA.goals + ' - ' + match.teamB.goals + ' ' + match.teamB.name + ' ('+ match.matchStatus +')'))
           li.appendChild(matchLi)
         })
         list.appendChild(li)
