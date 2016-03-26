@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Socket.IO app</h1>
+  <script>
+    var socket = io();
+
+    function startPinging () {
+      socket.emit('pingo', 'my emit msg')
+      setTimeout(function(){
+        startPinging()
+      }, 5000)
+    }
+
+    startPinging()
+  </script>
+</body>
+</html>
