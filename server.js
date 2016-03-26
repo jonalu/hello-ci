@@ -1,19 +1,37 @@
 'use strict'
 var express = require('express'),
     app = express(),
+    moment = require('moment'),
     middleware = require('./middleware'),
     server = require('http').createServer(app),
-    io = require('socket.io')(server);
+    io = require('socket.io')(server),
+    request = require('superagent'),
+    sockets = []
 
-var sockets = []
-
-var request = require('superagent');
 require('superagent-as-promised')(request);
 
+const fetchTodaysSchedule = () => {
+  const today = moment(new Date()).format('YYYY-MM-DD')
+  return request.get(`http://rest.tv2.no/sports-dw-rest/sport/football/schedule?fromDate=${today}T00%3A00%3A00%2B01%3A00&toDate=${today}T23%3A59%3A00%2B01%3A00`)
+}
+
+const excludeFinishedGames = match => {
+  return [
+    1, //Slutt
+    2, //Utsatt
+    4, //Etter ekstraomganger
+    5, //Etter ordinær tid
+    6, //Etter straffespark
+    29, //Etter straffer
+    49 //Tildelt seier
+  ].indexOf(match.matchStatus.id) === -1
+}
+
 function poll () {
-  request.get('http://rest.tv2.no:80/sports-dw-rest/sport/event?tournamentId=1%2C230%2C232&seasonId=337&content=summary&max=50')
+  fetchTodaysSchedule()
   .then(res => res.body)
-  .then(events => sockets.forEach( socket => socket.emit('events', events)))
+  .then(groupByTournament)
+  .then(matches => socket.emit('matches', matches))
   .then(() => {
     setTimeout(() => poll(), 5000)
   })
@@ -24,6 +42,36 @@ function poll () {
 
 poll()
 
+const groupByTournament = schedule => {
+  const tournamentIds = schedule.matches
+    .filter(excludeFinishedGames)
+    .map(m => m.tournament.id)
+    .reduce((tournaments, id) => {
+      if (tournaments.indexOf(id) === -1) {
+        tournaments.push(id);
+      }
+      return tournaments;
+    }, []);
+
+  return tournamentIds
+  .map(id => {
+    const matches = schedule.matches
+    .filter(excludeFinishedGames)
+    .filter(m => m.tournament.id === id)
+    return {
+      id: id,
+      name: matches[0].tournament.name,
+      matches: matches.map(m => {
+        return {
+          teamA: m.teamA,
+          teamB: m.teamB,
+          matchStatus: m.matchStatus.name
+        }
+      })
+    }
+  })
+}
+
 io.on('connection', (socket) => {
 
   sockets.push(socket)
@@ -32,9 +80,10 @@ io.on('connection', (socket) => {
     sockets.splice(sockets.indexOf(socket), 1)
   })
 
-  request.get('http://rest.tv2.no/sports-dw-rest/sport/schedule?fromDate=2016-03-26T00%3A00%3A00%2B01%3A00&toDate=2016-03-26T23%3A59%3A00%2B01%3A00')
+  fetchTodaysSchedule()
   .then(res => res.body)
-  .then(schedule => socket.emit('schedule', schedule))
+  .then(groupByTournament)
+  .then(matches => socket.emit('matches', matches))
 })
 
 app.get('/', (req, res) =>  res.render('index'))
