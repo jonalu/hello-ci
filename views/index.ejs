@@ -5,25 +5,25 @@
 </head>
 <body>
   <h1>Socket.IO app</h1>
+  <ul id='events'></ul>
   <script>
     var socket = io();
-
-    function startPinging () {
-      socket.emit('pingo', 'my emit msg')
-      setTimeout(function(){
-        startPinging()
-      }, 5000)
-    }
 
     socket.on('schedule', function(schedule) {
       console.log('schedule recvd')
     })
 
     socket.on('events', function(events) {
-      console.log('events recvd', events)
+      var list = document.getElementById('events')
+      list.innerHTML = ''
+      var lis = events.forEach(function(event) {
+        var li = document.createElement('li')
+        var content = document.createTextNode(event.eventType.name + ' - ' + event.person.firstName + ' ' + event.person.lastName + ' ('+ event.team.name +')')
+        li.appendChild(content)
+        list.appendChild(li)
+      })
     })
 
-    startPinging()
   </script>
 </body>
 </html>
