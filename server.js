@@ -41,10 +41,11 @@ const timePlayed = match => {
 };
 
 function poll () {
+  console.log('Poll');
   fetchTodaysSchedule()
   .then(res => res.body)
   .then(groupByTournament)
-  .then(matches => socket.emit('matches', matches))
+  .then(matches => sockets.forEach(s => s.emit('matches', matches)))
   .then(() => {
     setTimeout(() => poll(), 5000)
   })

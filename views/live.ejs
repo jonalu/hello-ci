@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link href='https://fonts.googleapis.com/css?family=Comfortaa&subset=latin,greek' rel='stylesheet' type='text/css'>
     <script src="/socket.io/socket.io.js"></script>
     <style>
@@ -68,7 +69,7 @@
 
     socket.on('matches', function (tournaments) {
 
-        console.log(tournaments);
+        console.log('Got event from server');
 
         var div = document.getElementById('tournaments');
 
@@ -117,7 +118,7 @@
                 td1.className += 'team teamA';
                 td2.className += 'team';
                 td5.className += 'status';
-                console.log('status', match.matchStatus);
+//                console.log('status', match.matchStatus);
                 tr.className += match.matchStatus.id == 1 ? 'finished' : '';
                 tr.appendChild(td2);
                 table.appendChild(tr);
