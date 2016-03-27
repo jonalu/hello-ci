@@ -44,7 +44,6 @@ poll()
 
 const groupByTournament = schedule => {
   const tournamentIds = schedule.matches
-    .filter(excludeFinishedGames)
     .map(m => m.tournament.id)
     .reduce((tournaments, id) => {
       if (tournaments.indexOf(id) === -1) {
@@ -56,7 +55,6 @@ const groupByTournament = schedule => {
   return tournamentIds
   .map(id => {
     const matches = schedule.matches
-    .filter(excludeFinishedGames)
     .filter(m => m.tournament.id === id)
     return {
       id: id,
@@ -88,6 +86,7 @@ io.on('connection', (socket) => {
 })
 
 app.get('/', (req, res) =>  res.render('index'))
+app.get('/live', (req, res) =>  res.render('live'))
 
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000)
