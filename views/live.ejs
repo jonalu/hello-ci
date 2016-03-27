@@ -22,13 +22,13 @@
             text-align: center;
         }
         td.start {
-            width: 10%;
+            width: 4%;
             text-align: center;
             font-size: 0.8em;
             color: #d2d2d2;
         }
         td.team {
-            width: 40%;
+            width: 38%;
         }
         td.teamA {
             text-align: right;
@@ -72,22 +72,24 @@
                 var td3 = document.createElement('td');
                 var td4 = document.createElement('td');
                 var td5 = document.createElement('td');
+                var td6 = document.createElement('td');
                 td1.appendChild(document.createTextNode(match.teamA.name));
                 td2.appendChild(document.createTextNode(match.teamB.name));
                 tr.appendChild(td1);
                 if (match.matchStatus.id === -1) {
-                    td3.appendChild(document.createTextNode(match.startTime));
-                    td3.setAttribute('colspan', '2');
-                    td3.className += 'start';
-                    tr.appendChild(td3);
+                    td6.appendChild(document.createTextNode(match.startTime));
                 } else {
-                    td3.appendChild(document.createTextNode(match.teamA.goals));
-                    td4.appendChild(document.createTextNode(match.teamB.goals));
-                    tr.appendChild(td3);
-                    tr.appendChild(td4);
-                    td3.className += 'goals';
-                    td4.className += 'goals';
+                    td6.appendChild(document.createTextNode('61\''));
                 }
+
+                td3.appendChild(document.createTextNode(match.teamA.goals));
+                td4.appendChild(document.createTextNode(match.teamB.goals));
+                tr.appendChild(td3);
+                tr.appendChild(td6);
+                tr.appendChild(td4);
+                td3.className += 'goals';
+                td4.className += 'goals';
+                td6.className += 'start';
 //                td5.appendChild(document.createTextNode(match.startTime));
                 td1.className += 'team teamA';
                 td2.className += 'team';
