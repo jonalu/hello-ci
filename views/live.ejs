@@ -8,37 +8,56 @@
         body {
             font-family: 'Comfortaa', cursive;
             font-size: 14px;
+            margin: 0;
         }
+
         table {
             width: 100%;
             /*border: 1px solid #2F6FAD;*/
             /*margin-bottom: 1%;*/
         }
+
+        tr:nth-child(even) {
+            background-color: #eee;
+        }
+
         tr.finished td {
             font-weight: bold;
             /*color: red;*/
         }
+
         td.goals {
             width: 5%;
             text-align: center;
         }
+
         td.start {
             width: 4%;
             text-align: center;
             font-size: 0.8em;
-            color: #d2d2d2;
+            color: #000;
         }
+
+        td.live {
+            color: #FF6B6B;
+        }
+
         td.team {
             width: 38%;
         }
+
         td.teamA {
             text-align: right;
         }
+
         td.status {
             width: 10%;
         }
+
         th {
-            padding: 1em;
+            padding: 0.5em;
+            color: #eee;
+            background-color: #2C2C2C;
         }
     </style>
 </head>
@@ -48,6 +67,8 @@
     var socket = io();
 
     socket.on('matches', function (tournaments) {
+
+        console.log(tournaments);
 
         var div = document.getElementById('tournaments');
 
@@ -79,10 +100,12 @@
                 tr.appendChild(td1);
                 if (match.matchStatus.id === -1) {
                     td6.appendChild(document.createTextNode(match.startTime));
+                } else if (match.matchStatus.id === 1) {
+                    td6.appendChild(document.createTextNode('FT'));
                 } else {
-                    td6.appendChild(document.createTextNode('61\''));
+                    td6.appendChild(document.createTextNode(match.playTime + '\''));
+                    td6.className += 'live ';
                 }
-
                 td3.appendChild(document.createTextNode(match.teamA.goals));
                 td4.appendChild(document.createTextNode(match.teamB.goals));
                 tr.appendChild(td3);
@@ -91,11 +114,9 @@
                 td3.className += 'goals';
                 td4.className += 'goals';
                 td6.className += 'start';
-//                td5.appendChild(document.createTextNode(match.startTime));
                 td1.className += 'team teamA';
                 td2.className += 'team';
                 td5.className += 'status';
-//                tr.appendChild(td5);
                 console.log('status', match.matchStatus);
                 tr.className += match.matchStatus.id == 1 ? 'finished' : '';
                 tr.appendChild(td2);
@@ -103,23 +124,6 @@
             }
             div.appendChild(table);
         }
-
-//        var list = div
-//        div.innerHTML = ''
-//        var lis = tournaments.forEach(function (tournament) {
-//            var li = document.createElement('li')
-//            var header = document.createElement('h2')
-//            var content = document.createTextNode(tournament.name + ' (' + tournament.matches.length + ')')
-//            var ul = document.createElement('ul')
-//            header.appendChild(content)
-//            li.appendChild(header)
-//            tournament.matches.forEach(function (match) {
-//                var matchLi = document.createElement('li')
-//                matchLi.appendChild(document.createTextNode(match.startTime + ': ' + match.teamA.name + ' ' + match.teamA.goals + ' - ' + match.teamB.goals + ' ' + match.teamB.name + ' (' + match.matchStatus + ')'))
-//                li.appendChild(matchLi)
-//            })
-//            list.appendChild(li)
-//        })
     })
 
 </script>

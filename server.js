@@ -27,6 +27,19 @@ const excludeFinishedGames = match => {
   ].indexOf(match.matchStatus.id) === -1
 }
 
+const timePlayed = match => {
+  const diff = moment.utc(moment(new Date()).diff(match.startTime));
+  const t = diff.hours() * 60 + diff.minutes();
+  switch (match.matchStatus.id) {
+    case 31:
+      return t;
+    case 34:
+      return t - 15;
+    default:
+      return 0;
+  }
+};
+
 function poll () {
   fetchTodaysSchedule()
   .then(res => res.body)
@@ -64,7 +77,8 @@ const groupByTournament = schedule => {
           teamA: m.teamA,
           teamB: m.teamB,
           matchStatus: m.matchStatus,
-          startTime: moment(m.startTime).format('HH:mm')
+          startTime: moment(m.startTime).format('HH:mm'),
+          playTime: timePlayed(m)
         }
       })
     }
