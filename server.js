@@ -63,7 +63,7 @@ const groupByTournament = schedule => {
         return {
           teamA: m.teamA,
           teamB: m.teamB,
-          matchStatus: m.matchStatus.name,
+          matchStatus: m.matchStatus,
           startTime: moment(m.startTime).format('HH:mm')
         }
       })
