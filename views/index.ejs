@@ -2,50 +2,11 @@
 <html>
 <head>
   <script src="/socket.io/socket.io.js"></script>
-  <style>
-  body {
-    font-size: 14px;
-  }
-  li {
-    list-style: none;
-  }
-  ul, li {
-    margin: 0;
-    padding: 0;
-  }
-  ul#tournaments >li {
-    margin-bottom: 10px;
-  }
-  h2 {
-    font-size: 1em;
-    text-transform: uppercase;
-  }
-  </style>
+  <link rel="stylesheet" href="/style.css"></link>
 </head>
 <body>
-  <ul id='tournaments'></ul>
-  <script>
-    var socket = io();
-
-    socket.on('matches', function(tournaments) {
-      var list = document.getElementById('tournaments')
-      list.innerHTML = ''
-      var lis = tournaments.forEach(function(tournament) {
-        var li = document.createElement('li')
-        var header = document.createElement('h2')
-        var content = document.createTextNode(tournament.name + ' ('+ tournament.matches.length +')')
-        var ul = document.createElement('ul')
-        header.appendChild(content)
-        li.appendChild(header)
-        tournament.matches.forEach(function(match) {
-          var matchLi = document.createElement('li')
-          matchLi.appendChild(document.createTextNode(match.startTime + ': ' +match.teamA.name + ' ' + match.teamA.goals + ' - ' + match.teamB.goals + ' ' + match.teamB.name + ' ('+ match.matchStatus +')'))
-          li.appendChild(matchLi)
-        })
-        list.appendChild(li)
-      })
-    })
-
-  </script>
+  <section id="app-container"><%- markup %></section>
+  <script>window.__dehydratedState=<%- JSON.stringify(dehydratedState) %>;</script>
+  <script src="/pling.js"></script>
 </body>
 </html>

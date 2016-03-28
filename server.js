@@ -1,30 +1,31 @@
 'use strict'
-var express = require('express'),
-    app = express(),
-    moment = require('moment'),
-    middleware = require('./middleware'),
-    server = require('http').createServer(app),
-    io = require('socket.io')(server),
-    request = require('superagent'),
-    sockets = []
+import express from 'express'
+import moment from 'moment'
+import http from 'http'
+import middleware from './middleware'
+import request from 'superagent'
+import socketIo from 'socket.io'
+import {createStore, applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
+import {Provider} from 'react-redux'
+import React from 'react'
+import {renderToString} from 'react-dom/server'
+import superAgentAsPromised from 'superagent-as-promised'
+import Schedule from './app/components/Schedule'
+import reducer from './app/redux-reducer'
 
-require('superagent-as-promised')(request);
+superAgentAsPromised(request)
+
+const app = express()
+const server = http.createServer(app)
+const io = socketIo(server)
+let sockets = []
+
+app.use(express.static('public'))
 
 const fetchTodaysSchedule = () => {
   const today = moment(new Date()).format('YYYY-MM-DD')
   return request.get(`http://rest.tv2.no/sports-dw-rest/sport/football/schedule?fromDate=${today}T00%3A00%3A00%2B01%3A00&toDate=${today}T23%3A59%3A00%2B01%3A00`)
-}
-
-const excludeFinishedGames = match => {
-  return [
-    1, //Slutt
-    2, //Utsatt
-    4, //Etter ekstraomganger
-    5, //Etter ordinær tid
-    6, //Etter straffespark
-    29, //Etter straffer
-    49 //Tildelt seier
-  ].indexOf(match.matchStatus.id) === -1
 }
 
 const timePlayed = match => {
@@ -41,7 +42,6 @@ const timePlayed = match => {
 };
 
 function poll () {
-  console.log('Poll');
   fetchTodaysSchedule()
   .then(res => res.body)
   .then(groupByTournament)
@@ -87,20 +87,35 @@ const groupByTournament = schedule => {
 }
 
 io.on('connection', (socket) => {
-
   sockets.push(socket)
-
-  socket.on('disconnect', () => {
-    sockets.splice(sockets.indexOf(socket), 1)
-  })
-
+  socket.on('disconnect', () => sockets.splice(sockets.indexOf(socket), 1))
   fetchTodaysSchedule()
   .then(res => res.body)
   .then(groupByTournament)
   .then(matches => socket.emit('matches', matches))
 })
 
-app.get('/', (req, res) =>  res.render('index'))
+app.get('/', (req, res, next) => {
+  fetchTodaysSchedule()
+  .then(res => res.body)
+  .then(groupByTournament)
+  .then(tournaments => {
+    const middleware = [thunk]
+    const store = applyMiddleware(...middleware)(createStore)(reducer, {
+      tournaments: tournaments
+    })
+    res.locals.tournaments = tournaments
+    res.render('index', {
+      markup: renderToString(
+        <Provider store={store}>
+          <Schedule />
+        </Provider>),
+      dehydratedState: store.getState()
+    })
+  })
+  .catch(err => next(err))
+})
+
 app.get('/live', (req, res) =>  res.render('live'))
 
 app.set('view engine', 'ejs');
