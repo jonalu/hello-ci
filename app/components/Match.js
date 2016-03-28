@@ -10,9 +10,6 @@ class Match extends Component {
     if(this.props.teamA.score !== nextProps.teamA.score || this.props.teamB.score !== nextProps.teamB.score)
       this.setState({ updated: true }, () => setTimeout(() => this.setState({ updated: false }), 10000))
   }
-  shouldComponentUpdate (nextProps, nextState) {
-    return this.state.updated !== nextState.updated
-  }
   render () {
     const playTime = this.props.matchStatus.id == 1 ? 'FT' : this.props.playTime > 0 ? `${this.props.playTime}'` : this.props.startTime
     return (
