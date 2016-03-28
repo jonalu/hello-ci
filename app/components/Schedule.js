@@ -7,10 +7,11 @@ class Schedule extends Component {
 
   componentDidMount () {
     var socket = io();
-    socket.on('matches', tournaments => this.props.dispatch(updateTournaments(tournaments)))
+    socket.on('tournaments', tournaments => this.props.dispatch(updateTournaments(tournaments)))
   }
 
   render () {
+    console.log('Render Schedule')
     return (
       <section className='schedule'>
         <ul className='tournaments'>{this.props.tournaments.map(t => <Tournament key={t.id} {...t} />)}</ul>

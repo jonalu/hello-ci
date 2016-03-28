@@ -10,8 +10,6 @@ import thunk from 'redux-thunk'
 const middleware = [thunk]
 const store = applyMiddleware(...middleware)(createStore)(reducer, window.__dehydratedState)
 
-console.log(document.getElementById('app-container'))
-
 render(
   <Provider store={store}>
     <Schedule />

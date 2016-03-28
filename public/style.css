@@ -58,17 +58,23 @@ h1, h2, h3 {
     background-color: #eee; }
   .match .team-name {
     -webkit-box-flex: 5;
-            flex: 5; }
+            flex: 5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
     .match .team-name.team-home {
-      text-align: right; }
+      text-align: right;
+      margin-right: 10px; }
     .match .team-name.team-away {
-      text-align: left; }
+      text-align: left;
+      margin-left: 10px; }
   .match .team-goals {
     -webkit-box-flex: 1;
             flex: 1; }
   .match .play-time {
     -webkit-box-flex: 1;
-            flex: 1; }
+            flex: 1;
+    margin: 0 10px; }
   .match .team-goals, .match .play-time {
     text-align: center; }
 

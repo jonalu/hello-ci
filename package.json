@@ -4,16 +4,16 @@
   "description": "CI hello world",
   "main": "server.js",
   "watch": {
-    "scss": "app/scss/**/*.scss",
+    "build:scss": "app/scss/main.scss",
     "build:js": "app/**/*.js"
   },
   "scripts": {
     "start": "node run.js",
     "dev": "nodemon run.js",
-    "test": "node_modules/.bin/_mocha --colors --recursive -R list",
+    "test": "_mocha --colors --recursive -R list",
     "watch": "npm-watch",
     "test:watch": "npm test -- --watch",
-    "scss": "node-sass app/scss/main.scss | postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o public/style.css",
+    "build:scss": "node-sass app/scss/main.scss | postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o public/style.css",
     "build:js": "webpack --progress --colors --config webpack.config.js"
   },
   "repository": {

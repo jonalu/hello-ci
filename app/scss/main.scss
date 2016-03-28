@@ -1,6 +1,8 @@
 @import './reset';
 @import './fonts';
 
+$margin-edge: 10px;
+
 body {
   font-size: 14px;
   font-family: 'Comfortaa', cursive;
@@ -34,11 +36,16 @@ h1, h2, h3 {
   }
   .team-name {
     flex: 5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &.team-home {
       text-align: right;
+      margin-right: $margin-edge;
     }
     &.team-away {
       text-align: left;
+      margin-left: $margin-edge;
     }
   }
   .team-goals {
@@ -46,6 +53,7 @@ h1, h2, h3 {
   }
   .play-time {
     flex: 1;
+    margin: 0 $margin-edge;
   }
   .team-goals, .play-time {
     text-align: center;

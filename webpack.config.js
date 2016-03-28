@@ -11,6 +11,8 @@ module.exports = {
     path: __dirname + "/public",
   },
 
+  devtool: "source-map",
+
   module: {
     loaders: [
       {
