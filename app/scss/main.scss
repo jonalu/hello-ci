@@ -49,6 +49,28 @@ h1, h2, h3 {
   }
 }
 
+.incidents {
+  position: fixed;
+  width: 100%;
+  background: rgba(255,255,255,.9);
+}
+
+.incident {
+  display: flex;
+  padding: $margin-edge 0;
+  .icon-wrapper {
+    flex: 1;
+    padding-left: $margin-edge;
+    img {
+      height: 1em;
+      width: 1em;
+    }
+  }
+  p {
+    flex: 4;
+  }
+}
+
 .match {
   display: flex;
   height: 1.1em;

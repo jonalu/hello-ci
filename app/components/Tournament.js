@@ -12,9 +12,10 @@ class Tournament extends Component {
 
   render () {
     return (
-      <li className={`tournament ${this.state.hidden ? 'unselected' : ''}`} onClick={this.handleClick.bind(this)}>
-        <h3>{this.props.name}</h3>
-        {this.state.hidden ? null : (<ul className='matches'>{this.props.matches.map(m => <Match key={m.id} {...m} />)}</ul>)}
+      <li className={`tournament ${this.state.hidden ? 'unselected' : ''}`}>
+        <h3 onClick={this.handleClick.bind(this)}>{this.props.name}</h3>
+        {this.state.hidden ? null : (<ul className='matches'>{this.props.matches.map(m =>
+          <Match key={m.id} dispatch={this.props.dispatch} {...m} />)}</ul>)}
       </li>
     )
   }

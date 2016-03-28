@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import classNames from 'classnames'
+import {fetchIncidents} from '../redux-actions'
 
 class Match extends Component {
   constructor (props) {
@@ -14,7 +15,7 @@ class Match extends Component {
     const playTime = this.props.matchStatus.id == 1 ? 'FT' : this.props.playTime > 0 ? `${this.props.playTime}'` : this.props.startTime
     return (
       <li
-        onClick={this.handleClick.bind(this)}
+        onClick={() => this.props.dispatch(fetchIncidents(this.props.id))}
         className={classNames('match', {'updated': this.state.updated, 'finished': this.props.matchStatus.id == 1})}>
         <div className='team-name team-home'>{this.props.teamA.name}</div>
         <div className='team-goals'>{this.props.teamA.goals}</div>
@@ -23,11 +24,6 @@ class Match extends Component {
         <div className='team-name team-away'>{this.props.teamB.name}</div>
       </li>
     )
-  }
-
-  handleClick (event) {
-    console.log(this.props)
-    event.stopPropagation();
   }
 }
 

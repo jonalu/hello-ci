@@ -12,6 +12,19 @@ export function updateTournaments(tournaments) {
   }
 }
 
+export function incidentsReceived(incidents) {
+  return {
+    type: 'RECEIVE_INCIDENTS',
+    incidents
+  }
+}
+
+export function closeIncidents() {
+  return {
+    type: 'CLOSE_INCIDENTS'
+  }
+}
+
 export function fetchTournaments(day = moment(new Date()).format('YYYY-MM-DD')) {
   return (dispatch, getState) => {
     return request.get(`http://rest.tv2.no/sports-dw-rest/sport/football/schedule?fromDate=${day}T00%3A00%3A00%2B01%3A00&toDate=${day}T23%3A59%3A00%2B01%3A00`)
@@ -20,6 +33,17 @@ export function fetchTournaments(day = moment(new Date()).format('YYYY-MM-DD')) 
       .then(data => dispatch(updateTournaments(data)))
       .catch(err => {
         console.log('Error fetching todays schedule from API', err)
+      })
+  }
+}
+
+export function fetchIncidents(matchId) {
+  return (dispatch, getState) => {
+    return request.get(`http://rest.tv2.no/sports-dw-rest/sport/event?matchId=${matchId}&eventTypeId=1%2C2%2C3%2C4%2C8`)
+      .then(res => res.body)
+      .then(data => dispatch(incidentsReceived(data)))
+      .catch(err => {
+        console.log(`Error fetching incidents for match ${matchId}`, err)
       })
   }
 }

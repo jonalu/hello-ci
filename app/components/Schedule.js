@@ -1,7 +1,8 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux'
 import Tournament from './Tournament'
-import {updateTournaments} from '../redux-actions'
+import Incident from './Incident'
+import {updateTournaments, closeIncidents} from '../redux-actions'
 
 class Schedule extends Component {
 
@@ -13,7 +14,11 @@ class Schedule extends Component {
   render () {
     return (
       <section className='schedule'>
-        <ul className='tournaments'>{this.props.tournaments.map(t => <Tournament key={t.id} {...t} />)}</ul>
+        {this.props.showIncidents ? (
+          <ul onClick={() => this.props.dispatch(closeIncidents())} className='incidents'>{this.props.incidents.map(i => <Incident key={i.id} {...i} />)}</ul>
+        ) : null}
+        <ul className='tournaments'>{this.props.tournaments.map(t =>
+            <Tournament key={t.id} dispatch={this.props.dispatch} {...t} />)}</ul>
       </section>
     )
   }
