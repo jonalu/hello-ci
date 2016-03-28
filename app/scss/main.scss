@@ -5,8 +5,8 @@ $margin-edge: 5px;
 
 body {
   font-size: 14px;
-  font-family: 'Comfortaa', cursive;
-  color: #2C2C2C;
+  font-family: 'Nixie One', cursive;
+  color: #000;
 }
 
 h1, h2, h3 {
@@ -85,6 +85,6 @@ h1, h2, h3 {
   }
   .team-goals, .play-time {
     text-align: center;
-    font-family: monospace;
+    //font-family: monospace;
   }
 }
