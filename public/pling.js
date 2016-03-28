@@ -21216,7 +21216,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('Render Schedule');
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'schedule' },
@@ -21345,13 +21344,32 @@
 	var Match = function (_Component) {
 	  _inherits(Match, _Component);
 	
-	  function Match() {
+	  function Match(props) {
 	    _classCallCheck(this, Match);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Match).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Match).call(this, props));
+	
+	    _this.state = { updated: false };
+	    return _this;
 	  }
 	
 	  _createClass(Match, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var _this2 = this;
+	
+	      if (this.props.teamA.score !== nextProps.teamA.score || this.props.teamB.score !== nextProps.teamB.score) this.setState({ updated: true }, function () {
+	        return setTimeout(function () {
+	          return _this2.setState({ updated: false });
+	        }, 10000);
+	      });
+	    }
+	  }, {
+	    key: 'shouldComponentUpdate',
+	    value: function shouldComponentUpdate(nextProps, nextState) {
+	      return this.state.updated !== nextState.updated;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var playTime = this.props.matchStatus.id == 1 ? 'FT' : this.props.playTime > 0 ? this.props.playTime + ' \'' : this.props.startTime;
@@ -21359,7 +21377,7 @@
 	        'li',
 	        {
 	          onClick: this.handleClick.bind(this),
-	          className: (0, _classnames2.default)('match', { 'finished': this.props.matchStatus.id == 1 }) },
+	          className: (0, _classnames2.default)('match', { 'updated': this.state.updated, 'finished': this.props.matchStatus.id == 1 }) },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'team-name team-home' },

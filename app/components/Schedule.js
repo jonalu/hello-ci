@@ -11,7 +11,6 @@ class Schedule extends Component {
   }
 
   render () {
-    console.log('Render Schedule')
     return (
       <section className='schedule'>
         <ul className='tournaments'>{this.props.tournaments.map(t => <Tournament key={t.id} {...t} />)}</ul>
