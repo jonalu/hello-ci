@@ -34,7 +34,7 @@ app.get('/', (req, res, next) => {
           <Schedule />
         </Provider>),
       dehydratedState: store.getState(),
-      title: `Pling! | ${moment(new Date()).format('DD/M')}`
+      title: `Pling! ${moment(new Date()).format('DD.MM')}`
     })
   })
   .catch(err => next(err))
