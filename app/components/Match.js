@@ -14,7 +14,7 @@ class Match extends Component {
     return this.state.updated !== nextState.updated
   }
   render () {
-    const playTime = this.props.matchStatus.id == 1 ? 'FT' : this.props.playTime > 0 ? `${this.props.playTime} '` : this.props.startTime
+    const playTime = this.props.matchStatus.id == 1 ? 'FT' : this.props.playTime > 0 ? `${this.props.playTime}'` : this.props.startTime
     return (
       <li
         onClick={this.handleClick.bind(this)}
