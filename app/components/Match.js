@@ -27,8 +27,10 @@ class Match extends Component {
       </li>
     )
   }
-  handleClick (e) {
+
+  handleClick (event) {
     console.log(this.props)
+    event.stopPropagation();
   }
 }
 

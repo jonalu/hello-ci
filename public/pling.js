@@ -21274,10 +21274,15 @@
 	var Tournament = function (_Component) {
 	  _inherits(Tournament, _Component);
 	
-	  function Tournament() {
+	  function Tournament(props) {
 	    _classCallCheck(this, Tournament);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Tournament).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Tournament).call(this, props));
+	
+	    _this.state = {
+	      hidden: false
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(Tournament, [{
@@ -21285,13 +21290,13 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'li',
-	        { className: 'tournament' },
+	        { className: 'tournament ' + (this.state.hidden ? 'unselected' : ''), onClick: this.handleClick.bind(this) },
 	        _react2.default.createElement(
 	          'h3',
 	          null,
 	          this.props.name
 	        ),
-	        _react2.default.createElement(
+	        this.state.hidden ? null : _react2.default.createElement(
 	          'ul',
 	          { className: 'matches' },
 	          this.props.matches.map(function (m) {
@@ -21299,6 +21304,12 @@
 	          })
 	        )
 	      );
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      console.log('### ', event);
+	      this.setState({ hidden: !this.state.hidden });
 	    }
 	  }]);
 	
@@ -21407,8 +21418,9 @@
 	    }
 	  }, {
 	    key: 'handleClick',
-	    value: function handleClick(e) {
+	    value: function handleClick(event) {
 	      console.log(this.props);
+	      event.stopPropagation();
 	    }
 	  }]);
 	
