@@ -19,6 +19,12 @@ export function incidentsReceived(incidents) {
   }
 }
 
+export function incidentsFetchFailed () {
+  return {
+    type: 'FETCH_INCIDENTS_FAILED'
+  }
+}
+
 export function closeIncidents() {
   return {
     type: 'CLOSE_INCIDENTS'
@@ -43,6 +49,7 @@ export function fetchIncidents(matchId) {
       .then(res => res.body)
       .then(data => dispatch(incidentsReceived(data)))
       .catch(err => {
+        dispatch(incidentsFetchFailed())
         console.log(`Error fetching incidents for match ${matchId}`, err)
       })
   }

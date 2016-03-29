@@ -8,6 +8,8 @@ export function reducer (state = {tournaments: []}, action) {
       return { ...state, incidents: action.incidents, showIncidents: true }
     case 'CLOSE_INCIDENTS':
       return { ...state, showIncidents: false }
+    case 'FETCH_INCIDENTS_FAILED':
+      return { ...state, incidents: [] }
     default:
       return state
   }
