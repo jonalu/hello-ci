@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node run.js",
     "dev": "nodemon run.js",
-    "test": "_mocha --colors --recursive -R list",
+    "test": "_mocha --colors --recursive --compilers js:babel-register -R list",
     "watch": "npm-watch",
     "test:watch": "npm test -- --watch",
     "build:scss": "node-sass app/scss/main.scss | postcss --use autoprefixer --autoprefixer.browsers \"> 5%\" -o public/style.css",

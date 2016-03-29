@@ -71,31 +71,10 @@ export const groupByTournament = schedule => {
       return {
         id: id,
         name: matches[0].tournament.name,
-        matches: matches.map(m => {
-          return {
-            id: m.id,
-            teamA: m.teamA,
-            teamB: m.teamB,
-            matchStatus: m.matchStatus,
-            startTime: moment(m.startTime).format('HH:mm'),
-            playTime: timePlayed(m)
-          }
-        })
+        matches: matches
       }
     })
 }
 
-export const timePlayed = match => {
-  const diff = moment.utc(moment(new Date()).diff(match.startTime));
-  const t = diff.hours() * 60 + diff.minutes();
-  switch (match.matchStatus.id) {
-    case 31:
-      return t;
-    case 34:
-      return t - 15;
-    default:
-      return 0;
-  }
-}
 
 export default {updateTournaments}

@@ -1,18 +1,16 @@
 'use strict'
-import express from 'express'
-import moment from 'moment'
-import http from 'http'
-import middleware from './middleware'
-import superAgentAsPromised from 'superagent-as-promised'
-import socketIo from 'socket.io'
-import {createStore, applyMiddleware} from 'redux'
-import thunk from 'redux-thunk'
-import {Provider} from 'react-redux'
-import React from 'react'
-import {renderToString} from 'react-dom/server'
-import Schedule from './app/components/Schedule'
-import reducer from './app/redux-reducer'
-import {fetchTournaments} from './app/redux-actions'
+import express from "express";
+import moment from "moment";
+import http from "http";
+import socketIo from "socket.io";
+import {createStore, applyMiddleware} from "redux";
+import thunk from "redux-thunk";
+import {Provider} from "react-redux";
+import React from "react";
+import {renderToString} from "react-dom/server";
+import Schedule from "./app/components/Schedule";
+import reducer from "./app/redux-reducer";
+import {fetchTournaments} from "./app/redux-actions";
 
 const app = express()
 const server = http.createServer(app)
@@ -27,35 +25,35 @@ io.on('connection', (socket) => {
 app.get('/', (req, res, next) => {
   const store = applyMiddleware(thunk)(createStore)(reducer, {})
   store.dispatch(fetchTournaments())
-  .then(() => {
-    res.render('index', {
-      markup: renderToString(
-        <Provider store={store}>
-          <Schedule />
-        </Provider>),
-      dehydratedState: store.getState(),
-      title: `Pling! ${moment(new Date()).format('DD.MM')}`
+    .then(() => {
+      res.render('index', {
+        markup: renderToString(
+          <Provider store={store}>
+            <Schedule />
+          </Provider>),
+        dehydratedState: store.getState(),
+        title: 'Pling!'
+      })
     })
-  })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
-app.get('/live', (req, res) =>  res.render('live'))
+app.get('/live', (req, res) => res.render('live'))
 
 app.use(express.static('public'))
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000)
 
-function poll () {
+function poll() {
   const store = applyMiddleware(thunk)(createStore)(reducer, {})
   store.dispatch(fetchTournaments())
-  .then(() => sockets.forEach(s => s.emit('tournaments', store.getState().tournaments)))
-  .then(() => {
-    setTimeout(() => poll(), 5000)
-  })
-  .catch(err => {
-    setTimeout(() => poll(), 5000)
-  })
+    .then(() => sockets.forEach(s => s.emit('tournaments', store.getState().tournaments)))
+    .then(() => {
+      setTimeout(() => poll(), 5000)
+    })
+    .catch(err => {
+      setTimeout(() => poll(), 5000)
+    })
 }
 
 poll()
