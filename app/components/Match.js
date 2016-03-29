@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from "react";
 import classNames from "classnames";
-import {fetchMatchInfoAndIncidents} from "../redux-actions"
-import moment from "moment";
+import {fetchMatchInfoAndIncidents} from "../redux-actions";
+import moment from "moment-timezone";
 
 const GAME_STATE = {
   NOT_STARTED: -1,
@@ -43,7 +43,7 @@ class Match extends Component {
   }
 
   static timePlayed(match, now = new Date()) {
-    const minutesSince = (t) => moment.utc(moment(now).diff(t)).minutes();
+    const minutesSince = (t) => moment(moment(now).diff(t)).minutes();
     switch (match.matchStatus.id) {
       case GAME_STATE.FIRST_HALF:
         return minutesSince(match.realTime.startFirstHalf);
@@ -64,7 +64,7 @@ class Match extends Component {
       case GAME_STATE.PAUSE:
         return 'HT';
       case GAME_STATE.NOT_STARTED:
-        return moment(match.startTime).format("HH:mm");
+        return moment.tz(match.startTime, 'Europe/Oslo').format("HH:mm");
       default:
         return match.matchStatus.shortName.substr(0, 3).toUpperCase();
     }
