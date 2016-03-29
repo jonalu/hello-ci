@@ -2,11 +2,14 @@
 @import './fonts';
 
 $margin-edge: 5px;
+$primary: #2C2C2C;
+$secondary: #FFF;
+$unselected: #8C8C8C;
 
 body {
   font-size: 14px;
   font-family: 'Ubuntu', cursive;
-  color: #2C2C2C;
+  color: $primary;
 }
 
 ul, li {
@@ -16,8 +19,8 @@ ul, li {
 }
 
 h1, h2, h3 {
-  background: #2C2C2C;
-  color: #fff;
+  background: $primary;
+  color: $secondary;
   text-align: center;
   padding: 1.1em 0;
 }
@@ -29,7 +32,7 @@ h1, h2, h3 {
 
 .tournaments {
   li.unselected > h3 {
-    background-color: #8C8C8C;
+    background-color: $unselected;
     border-top: 1px solid #333;
   }
 }
@@ -55,10 +58,12 @@ h1, h2, h3 {
   }
 }
 
-.incidents {
+.match-info {
+  line-height: 2;
   position: fixed;
   width: 100%;
-  background: #fff;
+  background: $primary;
+  color: $secondary;
   text-align: center;
   cursor: pointer;
   transition: left .15s ease-in-out;
@@ -72,19 +77,30 @@ h1, h2, h3 {
   }
 }
 
+.lineups {
+  display: flex;
+  .lineup {
+    flex: 1;
+  }
+}
+
+.incidents {
+}
+
 .incident {
   display: flex;
-  padding: $margin-edge 0;
   .icon-wrapper {
     flex: 1;
-    padding-left: $margin-edge;
+    text-align: right;
+    padding-right: $margin-edge;
     img {
       height: 1em;
       width: 1em;
     }
   }
   p {
-    flex: 4;
+    flex: 1.5;
+    text-align: left;
   }
 }
 

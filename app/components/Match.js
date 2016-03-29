@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from "react";
 import classNames from "classnames";
-import {fetchIncidents} from "../redux-actions";
+import {fetchMatchInfoAndIncidents} from "../redux-actions"
 import moment from "moment";
 
 const GAME_STATE = {
@@ -31,7 +31,7 @@ class Match extends Component {
   render() {
     return (
       <li
-        onClick={() => this.props.dispatch(fetchIncidents(this.props.id))}
+        onClick={() => this.props.dispatch(fetchMatchInfoAndIncidents(this.props.id))}
         className={classNames('match', {'updated': this.state.updated, 'finished': this.props.matchStatus.id == 1})}>
         <div className='team-name team-home'>{this.props.teamA.trimmedName}</div>
         <div className='team-goals'>{this.props.teamA.goals}</div>

@@ -31,6 +31,31 @@ export function closeIncidents() {
   }
 }
 
+export function matchInfoReceived(matchInfo) {
+  return {
+    type: 'RECEIVE_MATCH_INFO',
+    matchInfo
+  }
+}
+
+export function matchInfoFetchFailed () {
+  return {
+    type: 'FETCH_MATCH_INFO_FAILED'
+  }
+}
+
+export function matchInfoAndIncidentsReceived () {
+  return {
+    type: 'RECEIVE_MATCH_INFO_AND_INCIDENTS'
+  }
+}
+
+export function fetchMatchInfoStart () {
+  return {
+    type: 'FETCH_MATCH_INFO_START'
+  }
+}
+
 export function fetchTournaments(day = moment(new Date()).format('YYYY-MM-DD')) {
   return (dispatch, getState) => {
     return request.get(`http://rest.tv2.no/sports-dw-rest/sport/football/schedule?fromDate=${day}T00%3A00%3A00%2B01%3A00&toDate=${day}T23%3A59%3A00%2B01%3A00`)
@@ -52,6 +77,30 @@ export function fetchIncidents(matchId) {
         dispatch(incidentsFetchFailed())
         console.log(`Error fetching incidents for match ${matchId}`, err)
       })
+  }
+}
+
+export function fetchMatchInfo(matchId) {
+  return (dispatch, getState) => {
+    return request.get(`http://rest.tv2.no/sports-dw-rest/sport/match/${matchId}?detailed=false`)
+      .then(res => res.body)
+      .then(data => dispatch(matchInfoReceived(data)))
+      .catch(err => {
+        dispatch(matchInfoFetchFailed())
+        console.log(`Error fetching match info for match ${matchId}`, err)
+      })
+  }
+}
+
+export function fetchMatchInfoAndIncidents(matchId) {
+  return (dispatch, getState) => {
+    dispatch(fetchMatchInfoStart())
+    return Promise.all([
+      dispatch(fetchMatchInfo(matchId)),
+      dispatch(fetchIncidents(matchId))
+    ])
+    .then(res => dispatch(matchInfoAndIncidentsReceived()))
+    .catch(err => console.log('err', err))
   }
 }
 
