@@ -59,6 +59,7 @@ h1, h2, h3 {
 }
 
 .match-info {
+  overflow: auto;
   line-height: 2;
   position: fixed;
   width: 100%;
@@ -88,10 +89,11 @@ h1, h2, h3 {
 }
 
 .incident {
-  display: flex;
+  text-align: center;
+  > * {
+    display: inline-block;
+  }
   .icon-wrapper {
-    flex: 1;
-    text-align: right;
     padding-right: $margin-edge;
     img {
       height: 1em;
@@ -99,8 +101,7 @@ h1, h2, h3 {
     }
   }
   p {
-    flex: 1.5;
-    text-align: left;
+    //
   }
 }
 
