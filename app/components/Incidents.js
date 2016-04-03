@@ -9,7 +9,7 @@ class Incidents extends Component {
         <ul>
           {this.props.incidents && this.props.incidents.length ? this.props.incidents.map(i =>
             <Incident key={i.id} {...i} />
-          ) : null}
+          ) : <li>Ingen hendelser i denne kampen</li>}
         </ul>
       </div>
     )

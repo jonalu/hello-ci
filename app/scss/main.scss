@@ -1,7 +1,7 @@
 @import './reset';
 @import './fonts';
 
-$margin-edge: 5px;
+$margin-edge: 1em;
 $primary: #2C2C2C;
 $secondary: #FFF;
 $unselected: #565555;
@@ -23,6 +23,8 @@ h1, h2, h3 {
   color: $secondary;
   text-align: center;
   padding: 1.1em 0;
+  font-weight: bold;
+  position: relative;
 }
 
 .text-bold {
@@ -82,12 +84,11 @@ h1, h2, h3 {
 .match-info {
   z-index: 1;
   overflow: auto;
-  line-height: 2;
   position: fixed;
   width: 100%;
-  background: $primary;
-  color: $secondary;
+  color: $primary;
   text-align: center;
+  background: $secondary;
   cursor: pointer;
   transition: left .15s ease-in-out;
   top: 0;
@@ -96,11 +97,15 @@ h1, h2, h3 {
   right: 0;
   display: flex;
   flex-direction: column;
-  @media screen and (min-width: 650px) {
+  h3 {
+    margin-bottom: $margin-edge;
+  }
+  @media screen and (min-width: 600px) {
     flex-direction: row;
   }
   > * {
     flex: 1;
+    padding: $margin-edge;
   }
   &.open {
     left: 0;
@@ -111,21 +116,31 @@ h1, h2, h3 {
   display: flex;
   .lineup {
     flex: 1;
+    &:first-child {
+      margin-right: $margin-edge;
+    }
+    > ul > li {
+      margin-bottom: $margin-edge;
+      padding: $margin-edge/2 0;
+      background: #eee;
+    }
+    > ul > li > ul > li {
+      padding: $margin-edge/2 0;
+    }
   }
 }
 
 .incidents {
   background: $secondary;
   color: $primary;
-  padding: 2em;
+  max-width: 350px;
   ul {
     border-left: 2px solid #94BB84;
     padding-left: 2 * $margin-edge;
     .incident {
       display: flex;
       height: 1.1em;
-      padding-bottom: 1em;
-      padding-top: 1.1em;
+      padding: .5em 0;
       position: relative;
       &:before {
         content: "";
@@ -133,7 +148,7 @@ h1, h2, h3 {
         width: 2 * $margin-edge;
         position: absolute;
         left: -2 * $margin-edge;
-        top: 2em;
+        top: 1em;
       }
       .time-from-start {
         margin: 0 $margin-edge;

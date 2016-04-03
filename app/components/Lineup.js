@@ -5,7 +5,7 @@ class Lineup extends Component {
   render () {
     return (
       <div className='lineup'>
-        <h3><img src={this.props.team.icon} /></h3>
+        <h3>{this.props.team.name}</h3>
         <ul>
           {this.props.team.lineup.map((line, i) =>
             <li key={i}><ul>{line.map(player =>
