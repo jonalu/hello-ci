@@ -82,7 +82,7 @@ h1, h2, h3 {
 }
 
 .match-info {
-  z-index: 1;
+  z-index: 11;
   overflow: auto;
   position: fixed;
   width: 100%;
@@ -164,7 +164,6 @@ h1, h2, h3 {
   }
 }
 
-
 .match {
   display: flex;
   height: 1.1em;
@@ -172,6 +171,7 @@ h1, h2, h3 {
   padding-top: 1.1em;
   transition: background-color ease-out .5s;
   cursor: pointer;
+
   &:nth-child(even) {
     background-color: #eee;
   }
@@ -201,5 +201,70 @@ h1, h2, h3 {
   }
   .team-goals, .play-time {
     text-align: center;
+  }
+
+  .alert {
+    flex: 13;
+    z-index: 10;
+    position: absolute;
+    height: 1.1em;
+    padding-bottom: 1em;
+    padding-top: 1.1em;
+    margin-top: -1.1em;
+    width: 100%;
+    span {
+
+      flex: 13;
+      z-index: 10;
+      position: absolute;
+      white-space: nowrap;
+      height: 1.1em;
+      padding-bottom: 1em;
+      padding-top: 1.1em;
+      margin-top: -1.1em;
+      width: 100%;
+      text-align: center;
+      transform: translateX(100%);
+      animation: scroll-left 20s linear 1;
+      -webkit-animation-delay: 2s;
+    }
+  }
+  .alert.goal {
+    background-color: #56ff56;
+  }
+  .alert.yellow-card {
+    background-color: #fffa4b;
+  }
+  .alert.red-card {
+    background-color: #ff444b;
+  }
+}
+
+@keyframes fadeOutOpacity {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.alert {
+  animation-delay: 0s, 2s;
+  animation-iteration-count: 40, 1;
+  animation-duration: 150ms, 180s;
+  animation-direction: normal, normal;
+  animation-name: fadeOutOpacity, fadeOutOpacity;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-500%);
   }
 }
