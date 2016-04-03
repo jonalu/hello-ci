@@ -70,7 +70,7 @@ export function fetchTournaments(day = moment(new Date()).format('YYYY-MM-DD')) 
 
 export function fetchIncidents(matchId) {
   return (dispatch, getState) => {
-    return request.get(`http://rest.tv2.no/sports-dw-rest/sport/event?matchId=${matchId}&eventTypeId=1%2C2%2C3%2C4%2C8`)
+    return request.get(`http://rest.tv2.no/sports-dw-rest/sport/event?matchId=${matchId}&content=summary&eventTypeId=1003`)
       .then(res => res.body)
       .then(data => dispatch(incidentsReceived(data)))
       .catch(err => {

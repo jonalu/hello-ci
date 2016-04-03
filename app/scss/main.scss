@@ -4,7 +4,7 @@
 $margin-edge: 5px;
 $primary: #2C2C2C;
 $secondary: #FFF;
-$unselected: #8C8C8C;
+$unselected: #565555;
 
 body {
   font-size: 14px;
@@ -25,15 +25,36 @@ h1, h2, h3 {
   padding: 1.1em 0;
 }
 
+.text-bold {
+  font-weight: bold;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .font-small {
   font-size: .75em;
   line-height: 1.25;
 }
 
 .tournaments {
-  li.unselected > h3 {
-    background-color: $unselected;
-    border-top: 1px solid #333;
+  li {
+    > h3:after {
+      position: absolute;
+      right: 2 * $margin-edge;
+      content: "-";
+    }
+    &.unselected > h3 {
+      background-color: $unselected;
+      &:after {
+        content: "+";
+      }
+    }
   }
 }
 
@@ -59,6 +80,7 @@ h1, h2, h3 {
 }
 
 .match-info {
+  z-index: 1;
   overflow: auto;
   line-height: 2;
   position: fixed;
@@ -70,9 +92,16 @@ h1, h2, h3 {
   transition: left .15s ease-in-out;
   top: 0;
   bottom: 0;
-  padding: 5em 0;
   left: 100%;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: 650px) {
+    flex-direction: row;
+  }
+  > * {
+    flex: 1;
+  }
   &.open {
     left: 0;
   }
@@ -86,24 +115,40 @@ h1, h2, h3 {
 }
 
 .incidents {
-}
-
-.incident {
-  text-align: center;
-  > * {
-    display: inline-block;
-  }
-  .icon-wrapper {
-    padding-right: $margin-edge;
-    img {
-      height: 1em;
-      width: 1em;
+  background: $secondary;
+  color: $primary;
+  padding: 2em;
+  ul {
+    border-left: 2px solid #94BB84;
+    padding-left: 2 * $margin-edge;
+    .incident {
+      display: flex;
+      height: 1.1em;
+      padding-bottom: 1em;
+      padding-top: 1.1em;
+      position: relative;
+      &:before {
+        content: "";
+        border-bottom: 2px solid #94BB84;
+        width: 2 * $margin-edge;
+        position: absolute;
+        left: -2 * $margin-edge;
+        top: 2em;
+      }
+      .time-from-start {
+        margin: 0 $margin-edge;
+      }
+      .icon-wrapper {
+        margin-right: $margin-edge;
+        img {
+          height: 1em;
+          width: 1em;
+        }
+      }
     }
   }
-  p {
-    //
-  }
 }
+
 
 .match {
   display: flex;
@@ -141,6 +186,5 @@ h1, h2, h3 {
   }
   .team-goals, .play-time {
     text-align: center;
-    //font-family: monospace;
   }
 }

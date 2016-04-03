@@ -8,13 +8,15 @@ class Incident extends Component {
   }
 
   render () {
-    const {firstName, lastName} = this.props.person
-    const {icon} = this.props.eventType
-    const teamName = this.props.team.name
     return (
       <li className='incident'>
-        <div className='icon-wrapper'><img src={icon} /></div>
-        <p>{`${firstName} ${lastName} (${teamName})`}</p>
+        <span className='time-from-start'>{`${this.props.timeFromStart}.`}</span>
+        {this.props.eventType.icon ? (<span className='text-right icon-wrapper'><img src={this.props.eventType.icon} /></span>) : null}
+        {this.props.person ? (
+          <span className='text-left'>{`${this.props.person.firstName || ''} ${this.props.person.lastName} (${this.props.team.name})`}</span>
+        ) : (
+          <span className='text-bold text-left'>{`${this.props.eventType.name}`}</span>
+        )}
       </li>
     )
   }

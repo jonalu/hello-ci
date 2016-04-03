@@ -20,7 +20,8 @@ class Schedule extends Component {
           matchInfo={this.props.matchInfo}
           dispatch={this.props.dispatch} />
         <ul className='tournaments'>{this.props.tournaments.map(t =>
-            <Tournament key={t.id} dispatch={this.props.dispatch} {...t} />)}</ul>
+          <Tournament key={t.id} dispatch={this.props.dispatch} {...t} />)}
+        </ul>
       </section>
     )
   }

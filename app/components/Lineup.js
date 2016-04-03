@@ -9,7 +9,7 @@ class Lineup extends Component {
         <ul>
           {this.props.team.lineup.map((line, i) =>
             <li key={i}><ul>{line.map(player =>
-                <li key={player.id}>{`${player.firstName} ${player.lastName}`}</li>)}</ul></li>
+                <li key={player.id}>{`${player.firstName || ''} ${player.lastName}`}</li>)}</ul></li>
           )}
         </ul>
       </div>

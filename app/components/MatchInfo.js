@@ -11,15 +11,13 @@ class MatchInfo extends Component {
       <section
         className={classNames('match-info', {'open': this.props.showIncidents})}
         onClick={() => this.props.dispatch(closeIncidents())}>
-        <div className='lineups'>
-        {this.props.matchInfo && this.props.matchInfo && this.props.matchInfo.teamA.lineup.length > 0 ? (
-          <Lineup team={this.props.matchInfo.teamA} />
-        ) : null}
-        {this.props.matchInfo && this.props.matchInfo && this.props.matchInfo.teamB.lineup.length > 0 ? (
-          <Lineup team={this.props.matchInfo.teamB} />
-        ) : null}
-        </div>
         <Incidents incidents={this.props.incidents} />
+        {this.props.matchInfo ? (
+          <div className='lineups'>
+            <Lineup team={this.props.matchInfo.teamA} />
+            <Lineup team={this.props.matchInfo.teamB} />
+          </div>
+        ) : null}
       </section>
     )
   }
